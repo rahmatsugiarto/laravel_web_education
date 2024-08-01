@@ -11,7 +11,7 @@ class EducationalMaterialController extends Controller
 {
     public function index()
     {
-        $materials = EducationalMaterial::where('is_approved', true)->get();
+        $materials = EducationalMaterial::with('comments.user')->where('is_approved', true)->orderBy('created_at', 'desc')->get();
         return view('materials.index', compact('materials'));
     }
 
@@ -25,13 +25,13 @@ class EducationalMaterialController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|string|in:article,image,audio,video',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,mp3,mp4|max:20480', // Maksimum 20MB
+            'type' => 'required|string|in:article,image,audio,video,pdf',
+            'file' => 'nullable|file|mimes:jpeg,png,jpg,mp3,mp4,pdf|max:102400', // Maksimum 100MB
         ]);
 
         $filePath = null;
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('public/materials');
+            $filePath = $request->file('file')->store('materials', 'public');
         }
 
         EducationalMaterial::create([
@@ -45,4 +45,3 @@ class EducationalMaterialController extends Controller
         return redirect()->route('materials.index')->with('success', 'Materi berhasil diupload dan menunggu approval.');
     }
 }
-

@@ -1,0 +1,15 @@
+/* app.css */
+
+/* Ensure images are displayed correctly */
+img {
+    display: block;
+    max-width: 50%;
+    height: auto;
+}
+
+/* Check for any styles that might hide images */
+.hidden {
+    display: none;
+}
+
+

@@ -2,57 +2,37 @@
 
 @section('content')
 <div class="container">
-    <h1>Upload Materi Edukasi</h1>
+    <h1>Buat Materi Edukasi Baru</h1>
     <form method="POST" action="{{ route('materials.store') }}" enctype="multipart/form-data">
         @csrf
+
         <div class="form-group">
             <label for="title">Judul</label>
-            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title"
-                value="{{ old('title') }}" required>
-            @error('title')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
         </div>
 
         <div class="form-group">
             <label for="description">Deskripsi</label>
-            <textarea id="description" class="form-control @error('description') is-invalid @enderror"
-                name="description" rows="4" required>{{ old('description') }}</textarea>
-            @error('description')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <textarea name="description" id="description" class="form-control" rows="5" required>{{ old('description') }}</textarea>
         </div>
 
         <div class="form-group">
-            <label for="type">Tipe Materi</label>
-            <select id="type" class="form-control @error('type') is-invalid @enderror" name="type" required>
+            <label for="type">Tipe</label>
+            <select name="type" id="type" class="form-control" required>
                 <option value="article" {{ old('type') == 'article' ? 'selected' : '' }}>Artikel</option>
                 <option value="image" {{ old('type') == 'image' ? 'selected' : '' }}>Gambar</option>
                 <option value="audio" {{ old('type') == 'audio' ? 'selected' : '' }}>Audio</option>
                 <option value="video" {{ old('type') == 'video' ? 'selected' : '' }}>Video</option>
+                <option value="pdf" {{ old('type') == 'pdf' ? 'selected' : '' }}>PDF</option>
             </select>
-            @error('type')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
         </div>
 
         <div class="form-group">
-            <label for="file">File</label>
-            <input id="file" type="file" class="form-control @error('file') is-invalid @enderror" name="file">
-            @error('file')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <label for="file">File (Opsional)</label>
+            <input type="file" name="file" id="file" class="form-control-file">
         </div>
 
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
 @endsection
