@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<head>
+    <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+</head>
 <div class="container mt-5">
     <h1 class="mb-4">Materi Menunggu Persetujuan</h1>
     @if ($materials->isEmpty())

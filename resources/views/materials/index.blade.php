@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<head>
+    <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+</head>
 <div class="container mt-5">
     <h1 class="mb-4">Daftar Materi Edukasi</h1>
     @if ($materials->isEmpty())
@@ -10,7 +13,6 @@
     @else
         <div class="list-group">
             @foreach ($materials as $material)
-            <br>
                 <div class="list-group-item border-0 mb-3 rounded shadow-sm">
                     <div class="d-flex flex-column">
                         <h5 class="mb-2">{{ $material->title }}</h5>
@@ -20,9 +22,10 @@
                         </p>
 
                         @if ($material->type == 'article')
+                            <!-- Handle article type if needed -->
                         @elseif ($material->type == 'image' && $material->file_path)
                             <div class="image-container mt-2">
-                                <img src="{{ asset('storage/' . $material->file_path) }}" alt="{{ $material->title }}" class="img-fluid rounded" style="max-height: 300px;">
+                                <img src="{{ asset('storage/' . $material->file_path) }}" alt="{{ $material->title }}" class="img-fluid rounded">
                             </div>
                         @elseif ($material->type == 'audio' && $material->file_path)
                             <audio controls class="w-100 mt-2">
@@ -39,19 +42,22 @@
                         @endif
 
                         @auth
+                        <br>
                             <div class="mt-3">
                                 <form method="POST" action="{{ route('comments.store') }}">
                                     @csrf
                                     <input type="hidden" name="educational_material_id" value="{{ $material->id }}">
-                                    <div class="mb-3">
-                                        <textarea name="content" class="form-control" rows="3" placeholder="Tambahkan komentar..."></textarea>
+                                    <div class="mb-3 d-flex align-items-center">
+                                        <textarea name="content" class="form-control mr-2" rows="1" placeholder="Tambahkan komentar..."></textarea>
+                                        <button type="submit" class="btn btn-primary">Kirim</button>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
                                 </form>
-                                <h5 class="mt-4">Komentar:</h5>
+                                @if($material->comments->isNotEmpty())
+                                    <h5 class="mt-4">Komentar:</h5>
+                                @endif
                                 <ul class="list-group">
                                     @foreach ($material->comments as $comment)
-                                        <li class="list-group-item border-0 rounded">
+                                        <li class="list-group-item border-0 rounded shadow-sm mb-2">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <strong>{{ $comment->user->name }}</strong>
                                                 <small class="text-muted">{{ $comment->created_at->format('d M Y H:i') }}</small>
@@ -69,20 +75,3 @@
     @endif
 </div>
 @endsection
-
-@push('styles')
-<style>
-    .image-container {
-        max-height: 300px; /* Set the desired maximum height */
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .image-container img {
-        width: auto;
-        height: 100%;
-        object-fit: cover; /* Use cover to fill the container without distorting aspect ratio */
-    }
-</style>
-@endpush

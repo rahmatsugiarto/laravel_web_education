@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<head>
+    <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
+</head>
 <div class="container mt-5">
     <h1 class="mb-4">Buat Materi Edukasi Baru</h1>
     <div class="card p-4 shadow-sm rounded">
@@ -39,21 +42,3 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    .card {
-        background-color: #f8f9fa; /* Latar belakang lembut */
-    }
-    .form-control, .form-select {
-        border-radius: 0.375rem; /* Border-radius untuk sudut yang membulat */
-    }
-    .btn-primary {
-        background-color: #007bff; /* Warna tombol yang konsisten dengan desain modern */
-        border: none;
-        border-radius: 0.375rem; /* Border-radius untuk tombol */
-    }
-    .btn-primary:hover {
-        background-color: #0056b3; /* Warna hover tombol */
-    }
-</style>
-@endpush
